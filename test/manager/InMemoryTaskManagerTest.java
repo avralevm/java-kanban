@@ -104,5 +104,4 @@ class InMemoryTaskManagerTest {
         assertEquals(0, manager.getAllSubtasks().size());
     }
 
-
 }

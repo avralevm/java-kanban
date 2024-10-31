@@ -5,6 +5,7 @@ import task.Status;
 import task.Subtask;
 import task.Task;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,6 +51,7 @@ public class InMemoryTaskManager implements TaskManager{
     @Override
     public void removeTask(int id) {
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
     //Methods tasks.Epic
@@ -85,9 +87,11 @@ public class InMemoryTaskManager implements TaskManager{
         for (Subtask subtask : subtasks.values()) {
             if (subtask.getEpicId() == id) {
                 subtasks.remove(subtask);
+                historyManager.remove(subtask.getId());
             }
         }
         epics.remove(id);
+        historyManager.remove(id);
     }
     @Override
     public ArrayList<Subtask> getAllSubtaskOfEpic(int idEpic) {
@@ -147,6 +151,7 @@ public class InMemoryTaskManager implements TaskManager{
 
         epic.getSubtasksId().remove(Integer.valueOf(id));
         subtasks.remove(id);
+        historyManager.remove(id);
         updateStatus(epic);
     }
 
@@ -171,7 +176,7 @@ public class InMemoryTaskManager implements TaskManager{
         }
     }
 
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return historyManager.getHistory();
     }
     private int getCountID() {
