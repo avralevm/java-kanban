@@ -9,7 +9,9 @@ import java.util.HashMap;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private HashMap<Integer, Node> historyViewedTasks;
+
     private static Node head;
+
     private static Node tail;
 
     InMemoryHistoryManager() {
@@ -67,6 +69,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
         node.setData(null);
     }
+
     @Override
     public List<Task> getHistory() {
         List<Task> arrTask = new ArrayList<>();
