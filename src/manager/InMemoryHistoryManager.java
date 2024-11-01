@@ -67,6 +67,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
         node.setData(null);
     }
+
     @Override
     public List<Task> getHistory() {
         List<Task> arrTask = new ArrayList<>();
