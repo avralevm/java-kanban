@@ -1,6 +1,6 @@
 package task;
 
-public class Node{
+public class Node {
     private Task data;
     private Node next;
     private Node prev;
