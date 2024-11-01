@@ -9,9 +9,7 @@ import java.util.HashMap;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private HashMap<Integer, Node> historyViewedTasks;
-
     private static Node head;
-
     private static Node tail;
 
     InMemoryHistoryManager() {

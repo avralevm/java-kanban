@@ -11,13 +11,9 @@ import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager{
     private HashMap<Integer, Task> tasks;
-
     private HashMap<Integer, Epic> epics;
-
     private HashMap<Integer, Subtask> subtasks;
-
     private int countID = 0;
-
     private HistoryManager historyManager;
 
     InMemoryTaskManager() {
