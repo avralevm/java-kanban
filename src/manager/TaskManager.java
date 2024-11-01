@@ -30,7 +30,7 @@ public interface TaskManager {
 
     void createEpic(Epic epic);
 
-    void updateEpic(Epic Epic);
+    void updateEpic(Epic epic);
 
     void removeEpic(int id);
 
