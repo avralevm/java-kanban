@@ -16,6 +16,7 @@ class InMemoryHistoryManagerTest {
     private static Epic epic;
     private static Subtask subtask;
     private int id = 0;
+
     @BeforeEach
     public void beforeEach() {
         historyManager = Managers.getDefaultHistory();
@@ -49,6 +50,7 @@ class InMemoryHistoryManagerTest {
 
         assertEquals(testArr, historyManager.getHistory(), "Хранятся в неправильном порядке");
     }
+
     @Test
     public void ShouldReturnTrueIfCorrectRemoveTask() {
         historyManager.add(task);

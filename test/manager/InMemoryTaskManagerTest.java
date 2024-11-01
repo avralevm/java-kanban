@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryTaskManagerTest {
 
     public static TaskManager manager = Managers.getDefault();
-
     public Task task;
     public Task task2;
     public Epic epic;
@@ -40,17 +39,20 @@ class InMemoryTaskManagerTest {
         subtask2.setEpicId(idEpic);
         manager.createSubtask(subtask2);
     }
+
     @AfterEach
     public void afterEach() {
         manager.removeAllTasks();
         manager.removeAllEpics();
         manager.removeAllSubtasks();
     }
+
     @Test
     public void shouldReturnTrueIfTaskMangerAddTaskAndFind() {
         assertEquals(task, manager.getTaskById(task.getId()));
         assertEquals(task2, manager.getTaskById(task2.getId()));
     }
+
     @Test
     public void shouldReturnTrueIfTaskMangerAddEpicAndFind() {
         ArrayList<Epic> epics = new ArrayList<>();
@@ -61,6 +63,7 @@ class InMemoryTaskManagerTest {
         assertEquals(epic2, manager.getEpicById(epic2.getId()));
         assertEquals(epics, manager.getAllEpics());
     }
+
     @Test
     public void shouldReturnTrueIfTaskMangerAddSubtaskAndFind() {
         assertEquals(subtask, manager.getSubtaskById(subtask.getId()));
@@ -77,6 +80,7 @@ class InMemoryTaskManagerTest {
         manager.removeAllTasks();
         assertEquals(0, manager.getAllTasks().size());
     }
+
     @Test
     public void shouldReturnTrueIfTaskMangerGetAllEpicAndRemoveAll() {
         final ArrayList<Epic> epics = manager.getAllEpics();
@@ -88,6 +92,7 @@ class InMemoryTaskManagerTest {
         manager.removeAllEpics();
         assertEquals(0, manager.getAllEpics().size());
     }
+
     @Test
     public void shouldReturnTrueIfTaskMangerGetAllSubtaskAndRemoveAll() {
         ArrayList<Subtask> subtasks = new ArrayList<>();

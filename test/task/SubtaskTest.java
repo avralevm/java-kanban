@@ -25,7 +25,4 @@ class SubtaskTest {
         assertNotNull(subtask2, "Задача не найдена.");
         assertEquals(subtask, subtask2, "ID Subtask и Subtask2 несовпадают");
     }
-
-
-
 }

@@ -9,10 +9,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
 class TaskTest {
     public static TaskManager manager = Managers.getDefault();
-
 
     @Test
     public void shouldReturnTrueIfIdTask1EqualsIdTask2() {

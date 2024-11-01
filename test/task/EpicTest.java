@@ -4,8 +4,6 @@ import manager.Managers;
 import manager.TaskManager;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -21,6 +19,4 @@ class EpicTest {
         assertNotNull(epic2, "Задача не найдена.");
         assertEquals(epic, epic2, "ID Epic и Epic2 несовпадают");
     }
-
-
 }
