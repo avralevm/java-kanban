@@ -17,7 +17,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             writer.write("id,type,name,status,description,epic");
 
             for (Task task : tasks.values()) {
-                writer.write( "\n" + toString(task));
+                writer.write("\n" + toString(task));
             }
             for (Epic epic : epics.values()) {
                 writer.write("\n" + toString(epic));
