@@ -12,7 +12,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.autoSaveFile = autoSaveFile;
     }
 
-    public void save () {
+    public void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(autoSaveFile))) {
             writer.write("id,type,name,status,description,epic");
 
