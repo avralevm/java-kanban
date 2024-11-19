@@ -7,11 +7,13 @@ public class Task {
     protected String description;
     protected int id;
     protected Status status;
+    protected TypeTask typeTask;
 
     public Task(String title, String description) {
         this.title = title;
         this.description = description;
         status = Status.NEW;
+        typeTask = TypeTask.TASK;
     }
 
     public String getTitle() {
@@ -46,6 +48,10 @@ public class Task {
         this.status = status;
     }
 
+    public TypeTask getTypeTask() {
+        return typeTask;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,4 +74,20 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
+
+//    public String toString(Task task) {
+//        return id + "," +
+//                typeTask + "," +
+//                title + "," +
+//                status + "," +
+//                description + ",";
+//    }
+//
+//    private Task fromString(String value) {
+//        String[] str = value.split(",");
+//        String title = str[2];
+//        String description = str[4];
+//        Task task = new Task(title, description);
+//        return task;
+//    }
 }

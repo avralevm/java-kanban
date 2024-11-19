@@ -28,9 +28,8 @@ class InMemoryHistoryManagerTest {
         epic = new Epic("1", "Эпик 1");
         epic.setId(id++);
 
-        subtask = new Subtask("1", "Сабтаск 1");
+        subtask = new Subtask("1", "Сабтаск 1", epic.getId());
         subtask.setId(id++);
-        subtask.setEpicId(epic.getId());
     }
 
     @Test
