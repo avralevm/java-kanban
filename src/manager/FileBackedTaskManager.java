@@ -4,7 +4,6 @@ import exception.ManagerSaveException;
 import task.*;
 
 import java.io.*;
-import java.nio.file.Files;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private File autoSaveFile;
@@ -148,7 +147,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 break;
             }
             case "EPIC": {
-                task= new Epic(title, description);
+                task = new Epic(title, description);
                 break;
             }
             case "SUBTASK": {
