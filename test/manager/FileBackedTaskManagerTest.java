@@ -8,15 +8,15 @@ import task.Task;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FileBackedTaskManagerTest {
     static FileBackedTaskManager fileBackedTaskManager;
     static Path path;
     static File file;
     static Task task, task2;
-    static Epic epic;
-    static Subtask subtask;
+    static Epic epic, epic2;
+    static Subtask subtask, subtask2;
 
     @BeforeAll
     static void createTempFile() {
@@ -44,66 +44,31 @@ public class FileBackedTaskManagerTest {
         task2 = new Task("2", "Задача 2");
         fileBackedTaskManager.createTask(task2);
         epic = new Epic("3", "Эпик 3");
-        fileBackedTaskManager.createTask(epic);
-        subtask = new Subtask("4", "Сабтаск 4", epic.getId());
-        fileBackedTaskManager.createTask(subtask);
+        fileBackedTaskManager.createEpic(epic);
+        epic2 = new Epic("4", "Эпик 4");
+        fileBackedTaskManager.createEpic(epic2);
+        subtask = new Subtask("5", "Сабтаск 5", epic.getId());
+        fileBackedTaskManager.createSubtask(subtask);
+        subtask2 = new Subtask("6", "Сабтаск 6", epic.getId());
+        fileBackedTaskManager.createSubtask(subtask);
     }
 
     @Test
-    @Order(0)
-    void loadEmptyFileTest() {
-        Assertions.assertTrue(file.exists(), "Файла не существуeт");
-        Assertions.assertEquals(0, file.length(), "Файл должен быть пустым");
-    }
-
-    @Test
-    @Order(1)
-    void saveEmptyFileTest() {
-        fileBackedTaskManager.save();
-        Assertions.assertTrue(file.exists(), "Файла не существуeт");
-        try {
-            String[] elementsFileSave = Files.readString(path).split("\n");
-            Assertions.assertEquals(1,elementsFileSave.length);
-            Assertions.assertEquals("id,type,name,status,description,epic", elementsFileSave[0], "Шапка не создаётся");
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    @Test
-    @Order(3)
-    void saveSomeTaskTest() {
+    void saveAndLoadTaskTest() {
         createTask();
-        fileBackedTaskManager.save();
 
-        try {
-            String[] elementsFileSave = Files.readString(path).split("\n");
-            Assertions.assertEquals("id,type,name,status,description,epic", elementsFileSave[0], "Шапка не создаётся");
-            Assertions.assertEquals(task, fileBackedTaskManager.fromString(elementsFileSave[1]),"Первая задач не cохранилась");
-            Assertions.assertEquals(subtask, fileBackedTaskManager.fromString(elementsFileSave[4]),"Последняя задача не cохранилась");
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
+        Task task = new Task("Задача 1", "Обновление Задачи 1");
+        fileBackedTaskManager.updateTask(task);
+        fileBackedTaskManager.removeTask(task2.getId());
+        fileBackedTaskManager.removeEpic(epic2.getId());
+        fileBackedTaskManager.removeAllSubtasks();
 
-    @Test
-    @Order(4)
-    void loadSomeTaskTest() {
-        FileBackedTaskManager fileBackedTaskManager2 = FileBackedTaskManager.loadFromFile(file);
+        FileBackedTaskManager loadFileBackedTaskManager = FileBackedTaskManager.loadFromFile(file);
 
-        Task receivedTask = fileBackedTaskManager2.getTaskById(0);
-        Task receivedEpic = fileBackedTaskManager2.getEpicById(2);
-        Task receivedSubtask = fileBackedTaskManager2.getSubtaskById(3);
-
-        Assertions.assertEquals(task, receivedTask);
-        Assertions.assertEquals(epic, receivedEpic);
-        Assertions.assertEquals(subtask, receivedSubtask);
-
-        try {
-            String[] elementsFileSave = Files.readString(path).split("\n");
-            Assertions.assertEquals(5, elementsFileSave.length);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+        Assertions.assertNotNull(loadFileBackedTaskManager);
+        Task task1 = loadFileBackedTaskManager.getTaskById(task.getId());
+        Assertions.assertEquals(task, task1,"Таски не совпадают, неверно загружен менеджер");
+        Assertions.assertNull(loadFileBackedTaskManager.getTaskById(epic2.getId()));
+        Assertions.assertEquals(0, loadFileBackedTaskManager.getAllSubtasks().size());
     }
 }
