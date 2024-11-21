@@ -27,10 +27,6 @@ public class InMemoryTaskManager implements TaskManager {
         return countID++;
     }
 
-    public void setCountID(int countID) {
-        this.countID = countID;
-    }
-
     //Methods Task
     @Override
     public ArrayList<Task> getAllTasks() {
@@ -205,5 +201,4 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getHistory() {
         return historyManager.getHistory();
     }
-
 }

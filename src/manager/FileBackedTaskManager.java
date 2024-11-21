@@ -12,6 +12,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.autoSaveFile = autoSaveFile;
     }
 
+    private void setCountID(int countID) {
+        this.countID = countID;
+    }
+
     public static FileBackedTaskManager loadFromFile(File autoSaveFile) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(autoSaveFile);
         int maxID = 0;
@@ -132,7 +136,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return stringBuilder.toString();
     }
 
-    public Task fromString(String value) {
+    private Task fromString(String value) {
         String[] taskInfo = value.split(",");
         Integer id = Integer.valueOf(taskInfo[0]);
         String typeTask = taskInfo[1];
