@@ -12,10 +12,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.autoSaveFile = autoSaveFile;
     }
 
-    private void setCountID(int countID) {
-        this.countID = countID;
-    }
-
     public static FileBackedTaskManager loadFromFile(File autoSaveFile) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(autoSaveFile);
         int maxID = 0;
@@ -181,6 +177,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (IOException exception) {
             throw new ManagerSaveException("Ошибка сохранения Task", exception);
         }
+    }
+
+    private void setCountID(int countID) {
+        this.countID = countID;
     }
 
     public static void main(String[] args) {
