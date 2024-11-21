@@ -17,15 +17,11 @@ class SubtaskTest {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
-        Subtask subtask = new Subtask("2", "Сабтаск 1");
-        subtask.setEpicId(epic.getId());
+        Subtask subtask = new Subtask("2", "Сабтаск 1", epic.getId());
         manager.createSubtask(subtask);
         final Subtask subtask2 = manager.getSubtaskById(subtask.getId());
 
         assertNotNull(subtask2, "Задача не найдена.");
         assertEquals(subtask, subtask2, "ID Subtask и Subtask2 несовпадают");
     }
-
-
-
 }

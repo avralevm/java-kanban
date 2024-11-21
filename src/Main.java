@@ -6,63 +6,60 @@ import task.Task;
 
 public class Main {
     public static void main(String[] args) {
-    TaskManager manager = Managers.getDefault();
+        TaskManager manager = Managers.getDefault();
 
-    Task task = new Task("1", "Задача 1");
-    manager.createTask(task);
+        Task task = new Task("1", "Задача 1");
+        manager.createTask(task);
 
-    Task task2 = new Task("2", "Задача 2");
-    manager.createTask(task2);
+        Task task2 = new Task("2", "Задача 2");
+        manager.createTask(task2);
 
-    Epic epic = new Epic("3", "Эпик 1");
-    manager.createEpic(epic);
+        Epic epic = new Epic("3", "Эпик 1");
+        manager.createEpic(epic);
 
-    Subtask subtask = new Subtask("4", "Сабтаск 1");
-    subtask.setEpicId(epic.getId());
-    manager.createSubtask(subtask);
+        Subtask subtask = new Subtask("4", "Сабтаск 1", epic.getId());
+        manager.createSubtask(subtask);
 
-    Subtask subtask2 = new Subtask("5", "Сабтаск 2");
-    subtask2.setEpicId(epic.getId());
-    manager.createSubtask(subtask2);
+        Subtask subtask2 = new Subtask("5", "Сабтаск 2", epic.getId());
+        manager.createSubtask(subtask2);
 
-    Subtask subtask3 = new Subtask("6", "Сабтаск 3");
-    subtask3.setEpicId(epic.getId());
-    manager.createSubtask(subtask3);
+        Subtask subtask3 = new Subtask("6", "Сабтаск 3", epic.getId());
+        manager.createSubtask(subtask3);
 
-    Epic epic2 = new Epic("7", "Эпик 2");
-    manager.createEpic(epic2);
+        Epic epic2 = new Epic("7", "Эпик 2");
+        manager.createEpic(epic2);
 
 
-    printAllTasks(manager);
+        printAllTasks(manager);
 
-    System.out.println("\n" + "История просмотров задач");
-    //Проверка на повтор
-    manager.getTaskById(task.getId());
-    manager.getEpicById(epic.getId());
-    printHistory(manager);
+        System.out.println("\n" + "История просмотров задач");
+        //Проверка на повтор
+        manager.getTaskById(task.getId());
+        manager.getEpicById(epic.getId());
+        printHistory(manager);
 
-    manager.getEpicById(epic.getId());
-    manager.getEpicById(epic2.getId());
-    printHistory(manager);
+        manager.getEpicById(epic.getId());
+        manager.getEpicById(epic2.getId());
+        printHistory(manager);
 
-    manager.getSubtaskById(subtask.getId());
-    manager.getSubtaskById(subtask2.getId());
-    manager.getSubtaskById(subtask3.getId());
-    manager.getTaskById(task.getId());
-    printHistory(manager);
+        manager.getSubtaskById(subtask.getId());
+        manager.getSubtaskById(subtask2.getId());
+        manager.getSubtaskById(subtask3.getId());
+        manager.getTaskById(task.getId());
+        printHistory(manager);
 
-    manager.getSubtaskById(subtask.getId());
-    printHistory(manager);
+        manager.getSubtaskById(subtask.getId());
+        printHistory(manager);
 
-    System.out.println("\n" + "История просмотров задач при удалении");
-    manager.removeTask(task.getId());
-    printHistory(manager);
+        System.out.println("\n" + "История просмотров задач при удалении");
+        manager.removeTask(task.getId());
+        printHistory(manager);
 
-    manager.removeTask(subtask.getId());
-    printHistory(manager);
+        manager.removeTask(subtask.getId());
+        printHistory(manager);
 
-    manager.removeEpic(epic.getId());
-    printHistory(manager);
+        manager.removeEpic(epic.getId());
+        printHistory(manager);
     }
 
     private static void printAllTasks(TaskManager manager) {

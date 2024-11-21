@@ -31,11 +31,9 @@ class InMemoryTaskManagerTest {
         manager.createEpic(epic2);
         idEpic = epic.getId();
 
-        subtask = new Subtask("1", "Сабтаск 1");
-        subtask.setEpicId(idEpic);
+        subtask = new Subtask("1", "Сабтаск 1", idEpic);
         manager.createSubtask(subtask);
-        subtask2 = new Subtask("2", "Сабтаск 2");
-        subtask2.setEpicId(idEpic);
+        subtask2 = new Subtask("2", "Сабтаск 2", idEpic);
         manager.createSubtask(subtask2);
     }
 
