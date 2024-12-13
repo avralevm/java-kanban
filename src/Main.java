@@ -46,20 +46,20 @@ public class Main {
         manager.createTask(task4);
 
         Task task5 = new Task("2", "Задача 2", Duration.ofHours(1),
-                LocalDateTime.of(2022, Month.DECEMBER, 6, 23 ,5));
+                LocalDateTime.of(2022, Month.DECEMBER, 6, 23, 5));
         manager.createTask(task5);
 
         Epic epic3 = new Epic("3", "Эпик 3");
         manager.createEpic(epic3);
 
         Subtask subtask1 = new Subtask("4", "Сабтаск 4", epic3.getId(), Duration.ofDays(30),
-                LocalDateTime.of(2020,1,1,1,1));
+                LocalDateTime.of(2020, 1, 1, 1, 1));
         manager.createTask(subtask1);
 
         System.out.println(manager.getPrioritizedTasks());
 
         Task task = new Task("Задача 1", "Обновление Задачи 1", Duration.ofMinutes(45),
-                LocalDateTime.of(2024,1,1,1,1));
+                LocalDateTime.of(2024, 1, 1, 1, 1));
         manager.updateTask(task);
         System.out.println(manager.getPrioritizedTasks());
     }
