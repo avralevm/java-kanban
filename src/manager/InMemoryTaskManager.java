@@ -228,7 +228,7 @@ public class InMemoryTaskManager implements TaskManager {
             Subtask subtask = subtasks.get(subtaskId);
             if (subtask.getStatus() != Status.NEW) {
                 statusNEW = false;
-            } else if (subtask.getStatus() != Status.DONE ) {
+            } else if (subtask.getStatus() != Status.DONE) {
                 statusDONE = false;
             }
         }
@@ -242,7 +242,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    private void updateEpicTimeFields (Epic epic) {
+    private void updateEpicTimeFields(Epic epic) {
         List<Subtask> subtasksEpic = getAllSubtaskOfEpic(epic.getId());
         Duration sumDurationSubtasks = subtasksEpic.stream()
                 .filter(subtask -> subtask.getDuration() != null)
