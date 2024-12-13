@@ -8,55 +8,53 @@ import task.Task;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
-public class FileBackedTaskManagerTest {
+public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     static FileBackedTaskManager fileBackedTaskManager;
-    static Path path;
     static File file;
-    static Task task, task2;
+    static Task task1, task2;
     static Epic epic, epic2;
     static Subtask subtask, subtask2;
 
-    @BeforeAll
-    static void createTempFile() {
-        try {
-            path = Files.createTempFile("FileSave", ".csv");
-            file = path.toFile();
-            fileBackedTaskManager = new FileBackedTaskManager(file);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    @AfterAll
-    static  void deleteTempFile() {
-        try {
-            Files.deleteIfExists(path);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+    @Override
+    protected FileBackedTaskManager createTaskManager() throws IOException {
+        file = Files.createTempFile("FileSave", ".csv").toFile();
+        file.deleteOnExit();
+        fileBackedTaskManager = new FileBackedTaskManager(file);
+        return fileBackedTaskManager;
     }
 
     void createTask() {
-        task = new Task("1", "Задача 1");
-        fileBackedTaskManager.createTask(task);
-        task2 = new Task("2", "Задача 2");
+        task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
+        fileBackedTaskManager.createTask(task1);
+
+        task2 = new Task("2", "Задача 2", Duration.ofMinutes(30),
+                task1.getStartTime().plusHours(2));
         fileBackedTaskManager.createTask(task2);
+
         epic = new Epic("3", "Эпик 3");
         fileBackedTaskManager.createEpic(epic);
+
         epic2 = new Epic("4", "Эпик 4");
         fileBackedTaskManager.createEpic(epic2);
-        subtask = new Subtask("5", "Сабтаск 5", epic.getId());
+
+        subtask = new Subtask("5", "Сабтаск 5", epic.getId(), Duration.ofMinutes(15),
+                task1.getEndTime().plusHours(1));
         fileBackedTaskManager.createSubtask(subtask);
-        subtask2 = new Subtask("6", "Сабтаск 6", epic.getId());
-        fileBackedTaskManager.createSubtask(subtask);
+
+        subtask2 = new Subtask("6", "Сабтаск 6", epic.getId(), Duration.ofMinutes(45),
+                subtask.getEndTime().plusMinutes(15));
+        fileBackedTaskManager.createSubtask(subtask2);
     }
 
     @Test
     void saveAndLoadTaskTest() {
         createTask();
 
-        Task task = new Task("Задача 1", "Обновление Задачи 1");
+        Task task = new Task("Задача 1", "Обновление Задачи 1", Duration.ofMinutes(45),
+                task1.getStartTime().plusHours(1));
         fileBackedTaskManager.updateTask(task);
         fileBackedTaskManager.removeTask(task2.getId());
         fileBackedTaskManager.removeEpic(epic2.getId());

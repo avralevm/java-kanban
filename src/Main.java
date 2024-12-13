@@ -4,92 +4,63 @@ import task.Epic;
 import task.Subtask;
 import task.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Month;
+
 public class Main {
     public static void main(String[] args) {
         TaskManager manager = Managers.getDefault();
 
-        Task task = new Task("1", "Задача 1");
-        manager.createTask(task);
+        Task task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
+        manager.createTask(task1);
 
-        Task task2 = new Task("2", "Задача 2");
+        Task task2 = new Task("2", "Задача 2", Duration.ofMinutes(30),
+                task1.getEndTime().plusHours(2));
         manager.createTask(task2);
 
-        Epic epic = new Epic("3", "Эпик 1");
+        Epic epic = new Epic("3", "Эпик 3");
         manager.createEpic(epic);
 
-        Subtask subtask = new Subtask("4", "Сабтаск 1", epic.getId());
-        manager.createSubtask(subtask);
+        System.out.println(manager.getPrioritizedTasks());
 
-        Subtask subtask2 = new Subtask("5", "Сабтаск 2", epic.getId());
-        manager.createSubtask(subtask2);
-
-        Subtask subtask3 = new Subtask("6", "Сабтаск 3", epic.getId());
-        manager.createSubtask(subtask3);
-
-        Epic epic2 = new Epic("7", "Эпик 2");
+        Epic epic2 = new Epic("4", "Эпик 4");
         manager.createEpic(epic2);
 
+        System.out.println(manager.getPrioritizedTasks());
 
-        printAllTasks(manager);
+        Subtask subtask = new Subtask("5", "Сабтаск 5", epic.getId(), Duration.ofMinutes(15),
+                task2.getEndTime().plusHours(1));
+        manager.createSubtask(subtask);
 
-        System.out.println("\n" + "История просмотров задач");
-        //Проверка на повтор
-        manager.getTaskById(task.getId());
-        manager.getEpicById(epic.getId());
-        printHistory(manager);
+        System.out.println(manager.getPrioritizedTasks());
 
-        manager.getEpicById(epic.getId());
-        manager.getEpicById(epic2.getId());
-        printHistory(manager);
+        Subtask subtask2 = new Subtask("6", "Сабтаск 6", epic.getId(), Duration.ofMinutes(45),
+                subtask.getEndTime().plusMinutes(15));
+        manager.createSubtask(subtask2);
 
-        manager.getSubtaskById(subtask.getId());
-        manager.getSubtaskById(subtask2.getId());
-        manager.getSubtaskById(subtask3.getId());
-        manager.getTaskById(task.getId());
-        printHistory(manager);
+        System.out.println(manager.getPrioritizedTasks());
 
-        manager.getSubtaskById(subtask.getId());
-        printHistory(manager);
+        Task task4 = new Task("1", "Задача 1", Duration.ofMinutes(30),
+                LocalDateTime.of(2021, 12,6, 22, 36));
+        manager.createTask(task4);
 
-        System.out.println("\n" + "История просмотров задач при удалении");
-        manager.removeTask(task.getId());
-        printHistory(manager);
+        Task task5 = new Task("2", "Задача 2", Duration.ofHours(1),
+                LocalDateTime.of(2022, Month.DECEMBER, 6, 23 ,5));
+        manager.createTask(task5);
 
-        manager.removeTask(subtask.getId());
-        printHistory(manager);
+        Epic epic3 = new Epic("3", "Эпик 3");
+        manager.createEpic(epic3);
 
-        manager.removeEpic(epic.getId());
-        printHistory(manager);
-    }
+        Subtask subtask1 = new Subtask("4", "Сабтаск 4", epic3.getId(), Duration.ofDays(30),
+                LocalDateTime.of(2020,1,1,1,1));
+        manager.createTask(subtask1);
 
-    private static void printAllTasks(TaskManager manager) {
-        System.out.println("Задачи:");
-        for (Task task : manager.getAllTasks()) {
-            System.out.println(task);
-        }
-        System.out.println("Эпики:");
-        for (Task epic : manager.getAllEpics()) {
-            System.out.println(epic);
+        System.out.println(manager.getPrioritizedTasks());
 
-            for (Task task : manager.getAllSubtaskOfEpic(epic.getId())) {
-                System.out.println("--> " + task);
-            }
-        }
-        System.out.println("Подзадачи:");
-        for (Task subtask : manager.getAllSubtasks()) {
-            System.out.println(subtask);
-        }
-
-        System.out.println("История:");
-        for (Task task : manager.getHistory()) {
-            System.out.println(task);
-        }
-    }
-
-    public static void printHistory(TaskManager manager) {
-        for (Task task : manager.getHistory()) {
-            System.out.println(task);
-        }
-        System.out.println();
+        Task task = new Task("Задача 1", "Обновление Задачи 1", Duration.ofMinutes(45),
+                LocalDateTime.of(2024,1,1,1,1));
+        manager.updateTask(task);
+        System.out.println(manager.getPrioritizedTasks());
     }
 }
