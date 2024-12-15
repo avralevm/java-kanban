@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class TaskTest {
     public static TaskManager manager = Managers.getDefault();
     @Test
-    public void TestTask1EqualsIdTask2() {
+    public void task1EqualsIdTask2Test() {
         Task task = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
         manager.createTask(task);
         final Task task2 = manager.getTaskById(task.getId());

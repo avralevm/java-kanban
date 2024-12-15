@@ -3,8 +3,6 @@ package manager;
 import exception.TaskOverlapException;
 import task.*;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -93,6 +91,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void removeAllEpics() {
         epics.clear();
         subtasks.clear();
+        prioritizedTasks.removeIf(task -> task.getTypeTask() == TypeTask.SUBTASK);
     }
 
     @Override
@@ -152,9 +151,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeAllSubtasks() {
         for (Epic epic : epics.values()) {
-            epic.getSubtasksId().clear();
+            epic.getSubtasks().clear();
             epic.setStatus(Status.NEW);
-            updateEpicTimeFields(epic);
+            epic.updateTimeFields();
         }
         subtasks.clear();
         prioritizedTasks.removeIf(task -> task.getTypeTask() == TypeTask.SUBTASK);
@@ -179,9 +178,9 @@ public class InMemoryTaskManager implements TaskManager {
 
         // Update Epic Fields
         Epic epic = epics.get(subtask.getEpicId());
-        epic.getSubtasksId().add(subtask.getId());
+        epic.getSubtasks().add(subtask);
         updateStatus(epic);
-        updateEpicTimeFields(epic);
+        epic.updateTimeFields();
 
         if (subtask.getStartTime() != null) {
             prioritizedTasks.add(subtask);
@@ -195,7 +194,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         Epic epic = epics.get(subtask.getEpicId());
         updateStatus(epic);
-        updateEpicTimeFields(epic);
+        epic.updateTimeFields();
 
         prioritizedTasks.remove(oldSubtask);
         if (isOverlapping(subtask)) {
@@ -212,20 +211,27 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask subtask = subtasks.get(id);
         Epic epic = epics.get(subtask.getEpicId());
 
-        epic.getSubtasksId().remove(Integer.valueOf(id));
+        epic.getSubtasks().remove(subtask);
         subtasks.remove(id);
         historyManager.remove(id);
         updateStatus(epic);
 
-        updateEpicTimeFields(epic);
+        epic.updateTimeFields();
         prioritizedTasks.remove(subtask);
+    }
+
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
+    }
+
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
     }
 
     private void updateStatus(Epic epic) {
         boolean statusDONE = true;
         boolean statusNEW = true;
-        for (Integer subtaskId : epic.getSubtasksId()) {
-            Subtask subtask = subtasks.get(subtaskId);
+        for (Subtask subtask : epic.getSubtasks()) {
             if (subtask.getStatus() != Status.NEW) {
                 statusNEW = false;
             } else if (subtask.getStatus() != Status.DONE) {
@@ -242,29 +248,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    private void updateEpicTimeFields(Epic epic) {
-        List<Subtask> subtasksEpic = getAllSubtaskOfEpic(epic.getId());
-        Duration sumDurationSubtasks = subtasksEpic.stream()
-                .filter(subtask -> subtask.getDuration() != null)
-                .map(Subtask::getDuration)
-                .reduce(Duration.ZERO, Duration::plus);
-        epic.setDuration(sumDurationSubtasks);
-
-        LocalDateTime minStartTime = subtasksEpic.stream()
-                .filter(subtask -> subtask.getStartTime() != null)
-                .min(Comparator.comparing(Subtask::getStartTime))
-                .map(Subtask::getStartTime)
-                .orElse(null); // возможно нужно заменить на null
-        epic.setStartTime(minStartTime);
-
-        LocalDateTime maxEndTime = subtasksEpic.stream()
-                .filter(subtask -> subtask.getEndTime() != null)
-                .max(Comparator.comparing(subtask -> subtask.getEndTime()))
-                .map(Subtask::getEndTime)
-                .orElse(null);
-        epic.setEndTime(maxEndTime);
-    }
-
     private boolean isOverlapping(Task validTask) {
         if (validTask.getStartTime() == null || validTask.getDuration() == null) {
             return false;
@@ -273,13 +256,5 @@ public class InMemoryTaskManager implements TaskManager {
                 .anyMatch(task -> task.getEndTime().isAfter(validTask.getStartTime()) &&
                                 task.getStartTime().isBefore(validTask.getEndTime())
                 );
-    }
-
-    public List<Task> getPrioritizedTasks() {
-        return new ArrayList<>(prioritizedTasks);
-    }
-
-    public List<Task> getHistory() {
-        return historyManager.getHistory();
     }
 }

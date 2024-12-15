@@ -25,7 +25,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testCreateTask() {
+    public void createTaskTest() {
         Task task = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
         manager.createTask(task);
 
@@ -33,7 +33,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void removeTask() {
+    public void removeTaskTest() {
         Task task = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
         manager.createTask(task);
 
@@ -42,7 +42,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testGetAllTasks() {
+    public void getAllTasksTest() {
         Task task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
         Task task2 = new Task("2", "Задача 2", Duration.ofHours(1), task1.getEndTime().plusHours(1));
         manager.createTask(task1);
@@ -55,7 +55,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testRemoveAllTasks() {
+    public void removeAllTasksTest() {
         Task task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
         Task task2 = new Task("2", "Задача 2", Duration.ofHours(1), task1.getEndTime().plusHours(1));
         manager.createTask(task1);
@@ -66,7 +66,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testGetTaskById() {
+    public void getTaskByIdTest() {
         Task task = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
         manager.createTask(task);
 
@@ -75,7 +75,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testUpdateTask() {
+    public void updateTaskTest() {
         Task task = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
         manager.createTask(task);
 
@@ -87,7 +87,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void createEpic() {
+    public void createEpicTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -95,7 +95,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void removeEpic() {
+    public void removeEpicTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -104,7 +104,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testGetAllEpics() {
+    public void getAllEpicsTest() {
         Epic epic1 = new Epic("1", "Эпик 1");
         Epic epic2 = new Epic("2", "Эпик 2");
         manager.createEpic(epic1);
@@ -117,7 +117,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testRemoveAllEpics() {
+    public void removeAllEpicsTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
         manager.removeAllEpics();
@@ -126,7 +126,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testGetEpicById() {
+    public void getEpicByIdTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -135,7 +135,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testUpdateEpic() {
+    public void updateEpicTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -147,7 +147,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void createSubtask() {
+    public void createSubtaskTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
         Subtask subtask = new Subtask("2", "Сабтаск 1", epic.getId(), Duration.ofMinutes(15),
@@ -158,7 +158,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void removeSubtask() {
+    public void removeSubtaskTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
         Subtask subtask = new Subtask("2", "Сабтаск 1", epic.getId(), Duration.ofMinutes(15),
@@ -170,7 +170,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testGetAllSubtaskOfEpic() {
+    public void getAllSubtaskOfEpicTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
         Subtask subtask1 = new Subtask("1", "Подзадача 1", epic.getId(), Duration.ofHours(1), LocalDateTime.now());
@@ -185,7 +185,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testGetAllSubtasks() {
+    public void getAllSubtasksTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -201,7 +201,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testRemoveAllSubtasks() {
+    public void removeAllSubtasksTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -215,7 +215,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testGetSubtaskById() {
+    public void getSubtaskByIdTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -227,7 +227,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    public void testUpdateSubtask() {
+    public void updateSubtaskTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -241,29 +241,31 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(updatedSubtask, manager.getSubtaskById(subtask.getId()), "Подзадача должна быть обновлена");
     }
 
-//    @Test
-//    public void testGetHistory() {
-//        Task task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
-//        Task task2 = new Task("2", "Задача 2", Duration.ofHours(1), LocalDateTime.now());
-//        manager.createTask(task1);
-//        manager.createTask(task2);
-//        manager.getTaskById(task1.getId());
-//        manager.getTaskById(task2.getId());
-//
-//        List<Task> history = manager.getHistory();
-//        assertEquals(2, history.size(), "История должна содержать 2 задачи");
-//        assertTrue(history.contains(task1), "История должна содержать task1");
-//        assertTrue(history.contains(task2), "История должна содержать task2");
-//    }
+    @Test
+    public void getHistoryTest() {
+        Task task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
+        Task task2 = new Task("2", "Задача 2", Duration.ofHours(1), LocalDateTime.now().plusHours(2));
+        manager.createTask(task1);
+        manager.createTask(task2);
+        manager.getTaskById(task1.getId());
+        manager.getTaskById(task2.getId());
 
-//    @Test
-//    public void testGetPrioritizedTasks() {
-//        Task task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
-//        Task task2 = new Task("2", "Задача 2", Duration.ofHours(1), LocalDateTime.now().plusHours(1));
-//        manager.createTask(task1);
-//        manager.createTask(task2);
-//
-//        List<Task> prioritizedTasks = manager.getPrioritizedTasks();
-//        assertEquals(2, prioritizedTasks.size(), "Должно быть");
-//    }
+        List<Task> history = manager.getHistory();
+        assertEquals(2, history.size(), "История должна содержать 2 задачи");
+        assertTrue(history.contains(task1), "История должна содержать task1");
+        assertTrue(history.contains(task2), "История должна содержать task2");
+    }
+
+    @Test
+    public void getPrioritizedTasksTest() {
+        Task task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
+        Task task2 = new Task("2", "Задача 2", Duration.ofHours(1), LocalDateTime.now().plusHours(2));
+        manager.createTask(task1);
+        manager.createTask(task2);
+
+        List<Task> prioritizedTasks = manager.getPrioritizedTasks();
+        assertEquals(2, prioritizedTasks.size(), "Должно быть 2 задачи");
+        assertTrue(prioritizedTasks.contains(task1), "Список должен содержать task1");
+        assertTrue(prioritizedTasks.contains(task2), "Список должен содержать task2");
+    }
 }

@@ -38,7 +38,7 @@ class EpicTest {
     }
 
     @Test
-    public void TestEpic1EqualsIdEpic2() {
+    public void epic1EqualsIdEpic2Test() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
         final Epic epic2 = manager.getEpicById(epic.getId());
@@ -48,7 +48,7 @@ class EpicTest {
     }
 
     @Test
-    public void TestEpicStatus() {
+    public void epicStatusTest() {
         assertEquals(Status.NEW, manager.getEpicById(epic.getId()).getStatus());
         subtask.setStatus(Status.DONE);
         manager.updateSubtask(subtask);
@@ -59,7 +59,7 @@ class EpicTest {
     }
 
     @Test
-    public void TestEpicStatusSubtaskStatusIN_PROGRESS() {
+    public void epicStatusSubtaskStatusIN_PROGRESSTest() {
         subtask.setStatus(Status.IN_PROGRESS);
         manager.updateSubtask(subtask);
         assertEquals(Status.IN_PROGRESS, manager.getEpicById(epic.getId()).getStatus());

@@ -3,23 +3,24 @@ package task;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Epic extends Task {
-    private ArrayList<Integer> subtasksId;
+    private ArrayList<Subtask> subtasks;
     private LocalDateTime endTime;
 
     public Epic(String title, String description) {
         super(title, description, Duration.ZERO, null);
-        subtasksId = new ArrayList<>();
+        subtasks = new ArrayList<>();
         typeTask = TypeTask.EPIC;
     }
 
-    public ArrayList<Integer> getSubtasksId() {
-        return subtasksId;
+    public ArrayList<Subtask> getSubtasks() {
+        return subtasks;
     }
 
     public void setSubtasksId(ArrayList<Integer> subtasksId) {
-        this.subtasksId = subtasksId;
+        this.subtasks = subtasks;
     }
 
     @Override
@@ -29,6 +30,28 @@ public class Epic extends Task {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public void updateTimeFields() {
+        Duration sumDurationSubtasks = subtasks.stream()
+                .filter(subtask -> subtask.getDuration() != null)
+                .map(Subtask::getDuration)
+                .reduce(Duration.ZERO, Duration::plus);
+        duration = sumDurationSubtasks;
+
+        LocalDateTime minStartTime = subtasks.stream()
+                .filter(subtask -> subtask.getStartTime() != null)
+                .min(Comparator.comparing(Subtask::getStartTime))
+                .map(Subtask::getStartTime)
+                .orElse(null);
+        startTime = minStartTime;
+
+        LocalDateTime maxEndTime = subtasks.stream()
+                .filter(subtask -> subtask.getEndTime() != null)
+                .max(Comparator.comparing(subtask -> subtask.getEndTime()))
+                .map(Subtask::getEndTime)
+                .orElse(null);
+        endTime = maxEndTime;
     }
 
     @Override

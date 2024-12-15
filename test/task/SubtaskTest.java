@@ -19,7 +19,7 @@ class SubtaskTest {
         manager.removeEpic(0);
     }
     @Test
-    public void TestSubtask1EqualsIdSubtask2() {
+    public void subtask1EqualsIdSubtask2Test() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
@@ -32,7 +32,7 @@ class SubtaskTest {
     }
 
     @Test
-    public void TestEpicExistForSubtasks() {
+    public void epicExistForSubtasksTest() {
         Epic epic = new Epic("1", "Эпик 1");
         manager.createEpic(epic);
 
