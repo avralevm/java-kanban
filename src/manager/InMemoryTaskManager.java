@@ -115,7 +115,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateEpic(Epic epic) throws TaskOverlapException {
         epics.put(epic.getId(), epic);
-        updateStatus(epic);
+        epic.updateStatus();
 
         if (isOverlapping(epic)) {
             throw new TaskOverlapException("Время задач пересекается");
@@ -179,7 +179,7 @@ public class InMemoryTaskManager implements TaskManager {
         // Update Epic Fields
         Epic epic = epics.get(subtask.getEpicId());
         epic.getSubtasks().add(subtask);
-        updateStatus(epic);
+        epic.updateStatus();
         epic.updateTimeFields();
 
         if (subtask.getStartTime() != null) {
@@ -193,7 +193,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.put(subtask.getId(), subtask);
 
         Epic epic = epics.get(subtask.getEpicId());
-        updateStatus(epic);
+        epic.updateStatus();
         epic.updateTimeFields();
 
         prioritizedTasks.remove(oldSubtask);
@@ -214,7 +214,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.getSubtasks().remove(subtask);
         subtasks.remove(id);
         historyManager.remove(id);
-        updateStatus(epic);
+        epic.updateStatus();
 
         epic.updateTimeFields();
         prioritizedTasks.remove(subtask);
@@ -226,26 +226,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     public List<Task> getHistory() {
         return historyManager.getHistory();
-    }
-
-    private void updateStatus(Epic epic) {
-        boolean statusDONE = true;
-        boolean statusNEW = true;
-        for (Subtask subtask : epic.getSubtasks()) {
-            if (subtask.getStatus() != Status.NEW) {
-                statusNEW = false;
-            } else if (subtask.getStatus() != Status.DONE) {
-                statusDONE = false;
-            }
-        }
-        //StatusSolution
-        if (statusDONE) {
-            epic.setStatus(Status.DONE);
-        } else if (statusNEW) {
-            epic.setStatus(Status.NEW);
-        } else {
-            epic.setStatus(Status.IN_PROGRESS);
-        }
     }
 
     private boolean isOverlapping(Task validTask) {

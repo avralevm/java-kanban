@@ -32,6 +32,26 @@ public class Epic extends Task {
         this.endTime = endTime;
     }
 
+    public void updateStatus() {
+        boolean statusDONE = true;
+        boolean statusNEW = true;
+        for (Subtask subtask : subtasks) {
+            if (subtask.getStatus() != Status.NEW) {
+                statusNEW = false;
+            } else if (subtask.getStatus() != Status.DONE) {
+                statusDONE = false;
+            }
+        }
+        //StatusSolution
+        if (statusDONE) {
+            status = Status.DONE;
+        } else if (statusNEW) {
+            status = Status.NEW;
+        } else {
+            status = Status.IN_PROGRESS;
+        }
+    }
+
     public void updateTimeFields() {
         Duration sumDurationSubtasks = subtasks.stream()
                 .filter(subtask -> subtask.getDuration() != null)
