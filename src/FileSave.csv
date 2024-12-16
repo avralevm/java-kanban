@@ -1,5 +1,5 @@
-id,type,name,status,description,epic
-0,TASK,1,NEW,Задача 1,
-1,TASK,2,NEW,Задача 2,
-2,EPIC,3,NEW,Эпик 3,
-3,SUBTASK,4,NEW,Сабтаск 4,2
+id,type,name,status,description,duration,startTime,idEpic
+0,TASK,1,NEW,Задача 1,PT30M,2021-12-06T22:36
+1,TASK,2,NEW,Задача 2,PT1H,2024-12-06T23:05
+2,EPIC,3,NEW,Эпик 3,PT720H,2020-01-01T01:01
+3,SUBTASK,4,NEW,Сабтаск 4,PT720H,2020-01-01T01:01,2
