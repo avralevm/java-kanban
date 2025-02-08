@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class TaskHandler extends BaseHttpHandler implements HttpHandler {
-    public TaskHandler (TaskManager manager) {
+    public TaskHandler(TaskManager manager) {
         super(manager);
     }
 

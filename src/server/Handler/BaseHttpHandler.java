@@ -14,12 +14,12 @@ public class BaseHttpHandler {
     protected TaskManager manager;
     protected Gson gson;
 
-    public BaseHttpHandler (TaskManager manager) {
+    public BaseHttpHandler(TaskManager manager) {
         this.manager = manager;
         gson = Managers.getGson();
     }
 
-    protected Optional<Integer> getId (HttpExchange exchange) throws IOException {
+    protected Optional<Integer> getId(HttpExchange exchange) throws IOException {
         String[] splitEl = exchange.getRequestURI().getPath().split("/");
         try {
             return Optional.of(Integer.parseInt(splitEl[2]));

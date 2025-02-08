@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
-    public SubtaskHandler (TaskManager manager) {
+    public SubtaskHandler(TaskManager manager) {
         super(manager);
     }
 

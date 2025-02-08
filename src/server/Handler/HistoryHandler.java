@@ -28,7 +28,7 @@ public class HistoryHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void getHandle (HttpExchange exchange) throws IOException {
+    private void getHandle(HttpExchange exchange) throws IOException {
         String[] splitEl = exchange.getRequestURI().getPath().split("/");
         if (splitEl.length == 2) {
             List<Task> history = manager.getHistory();
