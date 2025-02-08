@@ -19,7 +19,7 @@ public class Epic extends Task {
         return subtasks;
     }
 
-    public void setSubtasksId(ArrayList<Integer> subtasksId) {
+    public void setSubtasks(ArrayList<Subtask> subtasks) {
         this.subtasks = subtasks;
     }
 
@@ -42,7 +42,7 @@ public class Epic extends Task {
                 statusDONE = false;
             }
         }
-        //StatusSolution
+
         if (statusDONE) {
             status = Status.DONE;
         } else if (statusNEW) {
