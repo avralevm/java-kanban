@@ -31,25 +31,7 @@ public class HttpTaskServer {
     public static void main(String[] args) {
         try {
             HttpTaskServer taskServer = new HttpTaskServer();
-            Task task1 = new Task("1", "Задача 1", Duration.ofHours(2), LocalDateTime.now());
-            manager.createTask(task1);
-            Task task2 = new Task("2", "Задача 2", Duration.ofMinutes(30),
-                    task1.getEndTime().plusHours(2));
-            manager.createTask(task2);
-            Epic epic = new Epic("3", "Эпик 3");
-            manager.createEpic(epic);
-
-            Epic epic2 = new Epic("4", "Эпик 4");
-            manager.createEpic(epic2);
-            Subtask subtask = new Subtask("5", "Сабтаск 5", epic.getId(), Duration.ofMinutes(15),
-                    LocalDateTime.of(2025,02,9,13,42,50));
-            manager.createSubtask(subtask);
-
-            Subtask subtask2 = new Subtask("6", "Сабтаск 6", epic.getId(), Duration.ofMinutes(45),
-                    subtask.getEndTime().plusMinutes(15));
-            manager.createSubtask(subtask2);
             taskServer.start();
-            //taskServer.stop();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
