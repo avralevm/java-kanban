@@ -3,6 +3,7 @@ package task;
 import manager.Managers;
 import manager.TaskManager;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -13,16 +14,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class SubtaskTest {
     public static TaskManager manager = Managers.getDefault();
+    Epic epic;
+    @BeforeEach
+    private void createEpic() {
+        epic = new Epic("1", "Эпик 1");
+        manager.createEpic(epic);
+    }
 
     @AfterEach
-    public void deleteTask() {
-        manager.removeEpic(0);
+    private void deleteEpic() {
+        manager.removeEpic(epic.getId());
     }
+
     @Test
     public void subtask1EqualsIdSubtask2Test() {
-        Epic epic = new Epic("1", "Эпик 1");
-        manager.createEpic(epic);
-
         Subtask subtask = new Subtask("1", "Сабтаск 1", epic.getId(), Duration.ofMinutes(15), LocalDateTime.of(2024, 12, 30, 23, 15));
         manager.createSubtask(subtask);
         final Subtask subtask2 = manager.getSubtaskById(subtask.getId());
@@ -33,9 +38,6 @@ class SubtaskTest {
 
     @Test
     public void epicExistForSubtasksTest() {
-        Epic epic = new Epic("1", "Эпик 1");
-        manager.createEpic(epic);
-
         Subtask subtask = new Subtask("1", "Сабтаск 1", epic.getId(), Duration.ofMinutes(15), LocalDateTime.of(2024, 12, 30, 23, 15));
         manager.createSubtask(subtask);
 

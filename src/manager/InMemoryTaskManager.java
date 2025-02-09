@@ -63,12 +63,12 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(Task task) throws TaskOverlapException {
         Task oldTask = tasks.get(task.getId());
-        tasks.put(task.getId(), task);
-
         prioritizedTasks.remove(oldTask);
+
         if (isOverlapping(task)) {
             throw new TaskOverlapException("Время задач пересекается");
         }
+        tasks.put(task.getId(), task);
         if (task.getStartTime() != null) {
             prioritizedTasks.add(task);
         }
@@ -114,22 +114,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic) throws TaskOverlapException {
-        epics.put(epic.getId(), epic);
-        epic.updateStatus();
-
         if (isOverlapping(epic)) {
             throw new TaskOverlapException("Время задач пересекается");
         }
+        epics.put(epic.getId(), epic);
+        epic.updateStatus();
+        epic.updateTimeFields();
     }
 
     @Override
     public void removeEpic(int id) {
-        for (Subtask subtask : subtasks.values()) {
-            if (subtask.getEpicId() == id) {
-                subtasks.remove(subtask);
-                historyManager.remove(subtask.getId());
-                prioritizedTasks.remove(subtask);
-            }
+        List<Subtask> subtasksEpic = epics.get(id).getSubtasks();
+        for (Subtask subtask : subtasksEpic) {
+            subtasks.remove(subtask.getId());
+            historyManager.remove(subtask.getId());
+            prioritizedTasks.remove(subtask);
         }
         epics.remove(id);
         historyManager.remove(id);
@@ -190,17 +189,16 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateSubtask(Subtask subtask) throws TaskOverlapException {
         Subtask oldSubtask = subtasks.get(subtask.getId());
+        prioritizedTasks.remove(oldSubtask);
+
+        if (isOverlapping(subtask)) {
+            throw new TaskOverlapException("Время задач пересекается");
+        }
         subtasks.put(subtask.getId(), subtask);
 
         Epic epic = epics.get(subtask.getEpicId());
         epic.updateStatus();
         epic.updateTimeFields();
-
-        prioritizedTasks.remove(oldSubtask);
-        if (isOverlapping(subtask)) {
-            throw new TaskOverlapException("Время задач пересекается");
-        }
-
         if (subtask.getStartTime() != null) {
             prioritizedTasks.add(subtask);
         }
